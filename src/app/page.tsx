@@ -174,7 +174,7 @@ function ProductCard({ item }: { item: any }) {
       </div>
       <div className="mt-4 pt-3 border-t border-gray-100 flex items-center justify-between">
         <div>
-          <span className="text-xs text-gray-400 block">আজকের  দাম</span>
+          <span className="text-xs text-gray-400 block">আজকের দাম</span>
           <span className="font-bold text-gray-900">{item.today} টাকা</span>
         </div>
         <span
