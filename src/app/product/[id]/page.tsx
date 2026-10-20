@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useParams } from "next/navigation";
+import { Suspense } from "react";
 
 const allProducts = [
   {"id":1,"slug":"sorno-machi-chal","nameBn":"স্বর্ণমাছি চাল","category":"chal","categoryNameBn":"চাল","categoryIcon":"🍚","unit":"kg","image":"🍚","today":148,"yesterday":145,"lastWeek":142,"lastMonth":138,"change":{"dir":"up","pct":2.1},"markets":[{"market":"কারওয়ান বাজার","division":"ঢাকা","min":146,"max":165},{"market":"গ্রীন মার্কেট, মিরপুর","division":"ঢাকা","min":143,"max":159},{"market":"চৌদগ্রাম বাজার","division":"চট্টগ্রাম","min":142,"max":163},{"market":"আমতলী বাজার","division":"চট্টগ্রাম","min":138,"max":155},{"market":"সদর বাজার","division":"রাজশাহী","min":134,"max":148},{"market":"বাসারহাট বাজার","division":"রাজশাহী","min":135,"max":152},{"market":"মাঠ বাজার","division":"ময়মনসিংহ","min":132,"max":146},{"market":"চৌর বাজার","division":"ময়মনসিংহ","min":135,"max":155},{"market":"বাজারহাট","division":"খুলনা","min":134,"max":151},{"market":"ডবলগেট বাজার","division":"খুলনা","min":139,"max":154},{"market":"আমবাজার","division":"সিলেট","min":143,"max":165},{"market":"চৌরাস্তা বাজার","division":"সিলেট","min":141,"max":158}]},
@@ -39,12 +40,11 @@ const allProducts = [
   {"id":33,"slug":"dhanepata-gunda","nameBn":"ধনেপাতা গুঁড়া","category":"mosla","categoryNameBn":"মসলা","categoryIcon":"🌶️","unit":"kg","image":"🍃","today":265,"yesterday":265,"lastWeek":258,"lastMonth":250,"change":{"dir":"flat","pct":0},"markets":[{"market":"কারওয়ান বাজার","division":"ঢাকা","min":262,"max":295},{"market":"গ্রীন মার্কেট, মিরপুর","division":"ঢাকা","min":257,"max":284},{"market":"চৌদগ্রাম বাজার","division":"চট্টগ্রাম","min":254,"max":292},{"market":"আমতলী বাজার","division":"চট্টগ্রাম","min":247,"max":278},{"market":"সদর বাজার","division":"রাজশাহী","min":239,"max":264},{"market":"বাসারহাট বাজার","division":"রাজশাহী","min":242,"max":272},{"market":"মাঠ বাজার","division":"ময়মনসিংহ","min":237,"max":262},{"market":"চৌর বাজার","division":"ময়মনসিংহ","min":242,"max":278},{"market":"বাজারহাট","division":"খুলনা","min":239,"max":270},{"market":"ডবলগেট বাজার","division":"খুলনা","min":249,"max":275},{"market":"আমবাজার","division":"সিলেট","min":256,"max":295},{"market":"চৌরাস্তা বাজার","division":"সিলেট","min":233,"max":262}]}
 ];
 
-export default function ProductDetailsPage() {
+function ProductDetailsContent() {
   const params = useParams();
   const idStr = typeof params?.id === "string" ? params.id : "1";
   const product = allProducts.find((p) => p.id.toString() === idStr) || allProducts[0];
 
-  // গড় দাম ও সর্বনিম্ন/সর্বোচ্চ দাম হিসাব করা
   const markets = product.markets || [];
   const minPrices = markets.map((m) => m.min);
   const maxPrices = markets.map((m) => m.max);
@@ -146,5 +146,13 @@ export default function ProductDetailsPage() {
         </div>
       </div>
     </div>
+  );
+}
+
+export default function ProductDetailsPage() {
+  return (
+    <Suspense fallback={<div className="text-center py-20 text-gray-500">লোড হচ্ছে...</div>}>
+      <ProductDetailsContent />
+    </Suspense>
   );
 }
