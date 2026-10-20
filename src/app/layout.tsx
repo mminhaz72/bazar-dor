@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
-import PriceTicker from "@/components/PriceTicker"; // আপনার প্রজেক্টের পাথ অনুযায়ী টিকার ইমপোর্ট করুন
+import PriceTicker from "@/components/PriceTicker";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -27,8 +27,10 @@ export default function RootLayout({
   return (
     <html lang="bn">
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased bg-slate-50 text-gray-800 flex flex-col min-h-screen`}>
-        {/* নেভবার এবং টিকার গ্লোবালি রেন্ডার করা হলো */}
+        {/* গ্লোবাল নেভবার */}
         <Navbar />
+        
+        {/* গ্লোবাল অ্যানিমেটেড প্রাইস টিকার (এককভাবে কাজ করবে) */}
         <PriceTicker />
         
         <main className="flex-grow">

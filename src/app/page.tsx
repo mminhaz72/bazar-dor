@@ -1,4 +1,5 @@
 "use client";
+
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
@@ -60,96 +61,84 @@ export default function Home() {
   const fallers = products.filter((p) => p.change?.dir === "down").slice(0, 6);
 
   return (
-    <main className="min-h-screen bg-slate-50 text-gray-800 flex flex-col justify-between">
-      <div>
-        {/* এখানে অতিরিক্ত Navbar রিমুভ করা হয়েছে, কারণ এটি লেআউটে গ্লোবালি আছে */}
-        <div className="max-w-6xl mx-auto px-4 py-6 space-y-10">
-          {/* Hero / Banner Section */}
-          <section className="bg-white rounded-2xl p-6 md:p-10 shadow-sm border border-gray-100 flex flex-col md:flex-row items-center justify-between gap-8">
-            <div className="space-y-3 max-w-xl">
-              <span className="text-xs text-emerald-800 font-medium block">
-                মঙ্গলবার, ৬ অক্টোবর, ২০২৬
-              </span>
-              <h1 className="text-2xl md:text-3xl font-bold text-gray-900 leading-tight">
-                আজকের বাজারের দাম এক নজরে
-              </h1>
-              <p className="text-gray-600 text-sm leading-relaxed">
-                চাল, ডাল, তেল, সবজি, মাছ, মাংস, ডিম ও মসলার দাম — বাজারভিত্তিক বিস্তারিত, গড়, সর্বনিম্ন-সর্বোচ্চ এবং দামের পরিবর্তন এক জায়গায়।
-              </p>
-              <div className="pt-2">
-                <a
-                  href="#সব-পণ্য"
-                  className="inline-block bg-emerald-700 hover:bg-emerald-800 text-white font-medium px-5 py-2 rounded-xl transition-colors shadow-sm text-sm"
-                >
-                  সব পণ্য দেখুন
-                </a>
-              </div>
-            </div>
-            <div className="w-40 h-40 md:w-56 md:h-56 flex items-center justify-center bg-emerald-50 rounded-2xl">
-              <span className="text-6xl">🛒🥬🍎</span>
-            </div>
-          </section>
-
-          {/* Section A — আজ দাম বেড়েছে ▲ (৩ কলাম গ্রিড) */}
-          {risers.length > 0 && (
-            <section className="space-y-4">
-              <h2 className="text-lg font-bold text-red-600 flex items-center gap-2">
-                ▲ আজ দাম বেড়েছে
-              </h2>
-              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-                {risers.map((item) => (
-                  <ProductCard key={item.id} item={item} />
-                ))}
-              </div>
-            </section>
-          )}
-
-          {/* Section B — আজ দাম কমেছে ▼ (৩ কলাম গ্রিড) */}
-          {fallers.length > 0 && (
-            <section className="space-y-4">
-              <h2 className="text-lg font-bold text-emerald-600 flex items-center gap-2">
-                ▼ আজ দাম কমেছে
-              </h2>
-              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-                {fallers.map((item) => (
-                  <ProductCard key={item.id} item={item} />
-                ))}
-              </div>
-            </section>
-          )}
-
-          {/* Section C — সব পণ্য (৩ কলাম গ্রিড) */}
-          <section id="সব-পণ্য" className="space-y-4 pt-6">
-            <div className="flex flex-col md:flex-row justify-between items-start md:items-end border-b pb-3 gap-2">
-              <div>
-                <h2 className="text-xl font-bold text-gray-900">সব পণ্য</h2>
-                <p className="text-xs text-gray-500">দৈনিক নিত্যপ্রয়োজনীয় পণ্যের বাজার দর</p>
-              </div>
-              <span className="text-xs font-semibold bg-emerald-100 text-emerald-800 px-3 py-1 rounded-full">
-                মোট {products.length} টি পণ্য দেখানো হচ্ছে
-              </span>
-            </div>
-
-            {loading ? (
-              <div className="text-center py-12 text-gray-500">লোড হচ্ছে... (Loading...)</div>
-            ) : (
-              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-                {products.map((item) => (
-                  <ProductCard key={item.id} item={item} />
-                ))}
-              </div>
-            )}
-          </section>
+    <div className="max-w-6xl mx-auto px-4 py-6 space-y-10">
+      {/* Hero / Banner Section */}
+      <section className="bg-white rounded-2xl p-6 md:p-10 shadow-sm border border-gray-100 flex flex-col md:flex-row items-center justify-between gap-8">
+        <div className="space-y-3 max-w-xl">
+          <span className="text-xs text-emerald-800 font-medium block">
+            মঙ্গলবার, ১৩ অক্টোবর, ২০২৬
+          </span>
+          <h1 className="text-2xl md:text-3xl font-bold text-gray-900 leading-tight">
+            আজকের বাজারের দাম এক নজরে
+          </h1>
+          <p className="text-gray-600 text-sm leading-relaxed">
+            চাল, ডাল, তেল, সবজি, মাছ, মাংস, ডিম ও মসলার দাম — বাজারভিত্তিক বিস্তারিত, গড়, সর্বনিম্ন-সর্বোচ্চ এবং দামের পরিবর্তন এক জায়গায়।
+          </p>
+          <div className="pt-2">
+            <a
+              href="#সব-পণ্য"
+              className="inline-block bg-emerald-700 hover:bg-emerald-800 text-white font-medium px-5 py-2 rounded-xl transition-colors shadow-sm text-sm"
+            >
+              সব পণ্য দেখুন
+            </a>
+          </div>
         </div>
-      </div>
-
-      <footer className="bg-white border-t border-gray-200 mt-16 py-6">
-        <div className="max-w-6xl mx-auto px-4 flex flex-col md:flex-row justify-between items-center text-xs text-gray-500 gap-2">
-          <p>বাজার দর — প্রয়োজনীয় পণ্যের দাম এক নজরে।</p>
-          <p>সকল দাম সম্ভাব্য; বাজার অবস্থার ওপর নির্ভর করে পরিবর্তিত হয়।</p>
+        <div className="w-40 h-40 md:w-56 md:h-56 flex items-center justify-center bg-emerald-50 rounded-2xl">
+          <span className="text-6xl">🛒🥬🍎</span>
         </div>
-      </footer>
-    </main>
+      </section>
+
+      {/* Section A — আজ দাম বেড়েছে ▲ */}
+      {risers.length > 0 && (
+        <section className="space-y-4">
+          <h2 className="text-lg font-bold text-red-600 flex items-center gap-2">
+            ▲ আজ দাম বেড়েছে
+          </h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+            {risers.map((item) => (
+              <ProductCard key={item.id} item={item} />
+            ))}
+          </div>
+        </section>
+      )}
+
+      {/* Section B — আজ দাম কমেছে ▼ */}
+      {fallers.length > 0 && (
+        <section className="space-y-4">
+          <h2 className="text-lg font-bold text-emerald-600 flex items-center gap-2">
+            ▼ আজ দাম কমেছে
+          </h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+            {fallers.map((item) => (
+              <ProductCard key={item.id} item={item} />
+            ))}
+          </div>
+        </section>
+      )}
+
+      {/* Section C — সব পণ্য */}
+      <section id="সব-পণ্য" className="space-y-4 pt-6">
+        <div className="flex flex-col md:flex-row justify-between items-start md:items-end border-b pb-3 gap-2">
+          <div>
+            <h2 className="text-xl font-bold text-gray-900">সব পণ্য</h2>
+            <p className="text-xs text-gray-500">দৈনিক নিত্যপ্রয়োজনীয় পণ্যের বাজার দর</p>
+          </div>
+          <span className="text-xs font-semibold bg-emerald-100 text-emerald-800 px-3 py-1 rounded-full">
+            মোট {products.length} টি পণ্য দেখানো হচ্ছে
+          </span>
+        </div>
+
+        {loading ? (
+          <div className="text-center py-12 text-gray-500">লোড হচ্ছে... (Loading...)</div>
+        ) : (
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+            {products.map((item) => (
+              <ProductCard key={item.id} item={item} />
+            ))}
+          </div>
+        )}
+      </section>
+    </div>
   );
 }
 

@@ -5,30 +5,17 @@ import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 import { authClient } from "@/lib/auth-client";
 
-const tickerProducts = [
-  { name: "স্বর্ণমাছি চাল", price: "১৪৮ টাকা/কেজি", pct: "▲ ২.১%" },
-  { name: "মিনিকেট চাল", price: "৯৯ টাকা/কেজি", pct: "▼ ২.৯%" },
-  { name: "নাজির চাল", price: "৭৪ টাকা/কেজি", pct: "• ০%" },
-  { name: "বাটাম সাইজ চাল", price: "৬৬ টাকা/কেজি", pct: "▲ ৩.১%" },
-  { name: "মসুর ডাল", price: "১৪২ টাকা/কেজি", pct: "▲ ২.৯%" },
-  { name: "সরিষার তেল", price: "১৯২ টাকা/লিটার", pct: "▲ ২.১%" },
-  { name: "আলু", price: "৩০ টাকা/কেজি", pct: "▼ ৬.২%" },
-  { name: "পেঁয়াজ", price: "৫৪ টাকা/কেজি", pct: "▲ ১২.৫%" }
-];
-
 export default function Navbar() {
   const router = useRouter();
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [sessionUser, setSessionUser] = useState<any>(null);
 
   useEffect(() => {
-    // Better Auth থেকে কারেন্ট সেশন ফেচ করা
     const fetchSession = async () => {
       const { data } = await authClient.getSession();
       if (data?.user) {
         setSessionUser(data.user);
       } else {
-        // ফলব্যাক হিসেবে লোকালস্টোরেজ চেক করা যেতে পারে
         const localName = localStorage.getItem("userName");
         if (localName) {
           setSessionUser({ name: localName, email: "user@gmail.com" });
@@ -44,7 +31,7 @@ export default function Navbar() {
         onSuccess: () => {
           localStorage.removeItem("userName");
           setSessionUser(null);
-          toast.success("সফলভাবে লগআউট হয়েছে!");
+          toast.success("সফলভাবে লগআউট হয়েছে!");
           setDropdownOpen(false);
           router.push("/signin");
         },
@@ -70,7 +57,7 @@ export default function Navbar() {
           <div className="bg-emerald-700 text-white p-2 rounded-xl font-bold text-lg">🛒</div>
           <div>
             <h1 className="font-bold text-gray-900 text-base leading-tight">বাজার দর</h1>
-            <span className="text-[10px] text-gray-500 block">মঙ্গলবার, ৬ অক্টোবর, ২০২৬</span>
+            <span className="text-[10px] text-gray-500 block">মঙ্গলবার, ১৩ অক্টোবর, ২০২৬</span>
           </div>
         </Link>
 
@@ -145,36 +132,6 @@ export default function Navbar() {
           ))}
         </div>
       </nav>
-
-      <div className="bg-slate-100 border-t border-gray-200 py-2 overflow-hidden relative">
-        <div className="flex w-max animate-marquee items-center">
-          {[...tickerProducts, ...tickerProducts].map((item, idx) => (
-            <div key={idx} className="flex items-center gap-2 text-xs font-medium text-gray-700 px-4">
-              <span className="font-semibold text-gray-900">{item.name}</span>
-              <span className="text-gray-800">{item.price}</span>
-              <span className={`font-bold ${item.pct.includes('▲') ? 'text-red-600' : item.pct.includes('▼') ? 'text-emerald-600' : 'text-gray-500'}`}>
-                {item.pct}
-              </span>
-              <span className="ml-4 text-gray-300">|</span>
-            </div>
-          ))}
-        </div>
-
-        <style jsx>{`
-          @keyframes marquee {
-            0% { transform: translateX(0%); }
-            100% { transform: translateX(-50%); }
-          }
-          .animate-marquee {
-            display: flex;
-            width: max-content;
-            animation: marquee 25s linear infinite;
-          }
-          .animate-marquee:hover {
-            animation-play-state: paused;
-          }
-        `}</style>
-      </div>
     </header>
   );
 }

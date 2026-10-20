@@ -1,86 +1,108 @@
 "use client";
 
-import { authClient } from "@/lib/auth-client";
 import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
+import toast from "react-hot-toast";
+import { authClient } from "@/lib/auth-client";
 
 export default function ProfilePage() {
-  const { data } = authClient.useSession();
-  const user = data?.user;
-  
+  const router = useRouter();
+  const [sessionUser, setSessionUser] = useState<any>(null);
   const [name, setName] = useState("");
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    if (user?.name) {
-      setName(user.name);
-    }
-  }, [user]);
+    const fetchSession = async () => {
+      const { data } = await authClient.getSession();
+      if (data?.user) {
+        setSessionUser(data.user);
+        setName(data.user.name || "");
+      } else {
+        const localName = localStorage.getItem("userName") || "md minhaz";
+        setSessionUser({ name: localName, email: "minhazbangladesh72@gmail.com" });
+        setName(localName);
+      }
+    };
+    fetchSession();
+  }, []);
 
-  const handleUpdate = async (e: React.FormEvent) => {
+  const handleUpdate = (e: React.FormEvent) => {
     e.preventDefault();
-    alert("প্রোফাইল আপডেট সফল হয়েছে!");
+    setLoading(true);
+    setTimeout(() => {
+      localStorage.setItem("userName", name);
+      if (sessionUser) {
+        setSessionUser({ ...sessionUser, name });
+      }
+      toast.success("প্রোফাইল সফলভাবে আপডেট করা হয়েছে!");
+      setLoading(false);
+    }, 500);
+  };
+
+  const handleSignOut = async () => {
+    await authClient.signOut({
+      fetchOptions: {
+        onSuccess: () => {
+          localStorage.removeItem("userName");
+          toast.success("সফলভাবে লগ-আউট হয়েছে!");
+          router.push("/signin");
+        },
+      },
+    });
   };
 
   return (
-    <div className="max-w-4xl mx-auto px-6 py-10 font-sans">
-      <div className="mb-6">
-        <h1 className="text-xl font-bold text-gray-900">আমার প্রোফাইল</h1>
-        <p className="text-xs text-gray-500 mt-1">আপনার ব্যক্তিগত তথ্য এবং সেটিংস পরিচালনা করুন</p>
-      </div>
-
-      {/* ফিগমার হুবহু ডিজাইনের ইউজার কার্ড */}
-      <div className="bg-white border border-gray-200 rounded-xl p-5 flex items-center justify-between mb-6 shadow-sm">
-        <div className="flex items-center gap-4">
-          {user?.image ? (
-            <img
-              src={user.image}
-              alt="Profile"
-              className="w-14 h-14 rounded-full object-cover border border-gray-200"
-            />
-          ) : (
-            <div className="w-14 h-14 rounded-full bg-teal-700 flex items-center justify-center text-white font-bold text-lg">
-              {user?.name ? user.name.charAt(0).toUpperCase() : (user?.email ? user.email.charAt(0).toUpperCase() : "U")}
-            </div>
-          )}
-          <div>
-            <h3 className="text-sm font-bold text-gray-900">
-              {user?.name || user?.email || "লোড হচ্ছে..."}
-            </h3>
-            <p className="text-xs text-gray-500 mt-0.5">
-              {user?.email || ""}
-            </p>
-          </div>
+    <div className="min-h-[80vh] bg-white flex flex-col items-center px-4 py-8">
+      <div className="max-w-2xl w-full space-y-6">
+        <div>
+          <h1 className="text-xl font-bold text-gray-900">আমার প্রোফাইল</h1>
+          <p className="text-xs text-gray-500">আপনার ব্যক্তিগত তথ্য এবং সেটিংস পরিচালনা করুন</p>
         </div>
 
-        <button
-          onClick={() => authClient.signOut()}
-          className="border border-red-300 text-red-500 hover:bg-red-50 text-xs px-4 py-2 rounded-md font-medium transition"
-        >
-          সাইন আউট
-        </button>
-      </div>
-
-      {/* তথ্য ফর্ম সেকশন */}
-      <div className="bg-white border border-gray-200 rounded-xl p-6 shadow-sm">
-        <h3 className="text-xs font-bold text-gray-800 uppercase tracking-wider mb-4">তথ্য</h3>
-        <form onSubmit={handleUpdate} className="space-y-4">
-          <div>
-            <label className="block text-xs font-medium text-gray-600 mb-1">নাম</label>
-            <input
-              type="text"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              className="w-full px-3 py-2.5 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-emerald-600 bg-white text-gray-800"
-              placeholder="আপনার নাম লিখুন"
+        {/* ইউজার ইনফো কার্ড */}
+        <div className="bg-white border border-gray-200 rounded-2xl p-6 shadow-sm flex items-center justify-between">
+          <div className="flex items-center gap-4">
+            <img
+              src={sessionUser?.image || "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&h=100&fit=crop&crop=faces"}
+              alt="Profile"
+              className="w-14 h-14 rounded-full object-cover border-2 border-emerald-600"
             />
+            <div>
+              <h2 className="font-bold text-gray-900">{sessionUser?.name || "লোড হচ্ছে..."}</h2>
+              <p className="text-xs text-gray-500">{sessionUser?.email || "minhazbangladesh72@gmail.com"}</p>
+            </div>
           </div>
-
           <button
-            type="submit"
-            className="w-full bg-[#1b5e39] text-white py-2.5 rounded-md hover:bg-[#14472c] transition text-sm font-medium mt-2"
+            onClick={handleSignOut}
+            className="border border-red-200 text-red-600 hover:bg-red-50 text-xs font-semibold px-4 py-2 rounded-xl transition"
           >
-            আপডেট করুন
+            সাইন আউট
           </button>
-        </form>
+        </div>
+
+        {/* তথ্য আপডেট ফর্ম */}
+        <div className="bg-white border border-gray-200 rounded-2xl p-6 shadow-sm space-y-4">
+          <h3 className="text-sm font-bold text-gray-900">তথ্য</h3>
+          <form onSubmit={handleUpdate} className="space-y-4">
+            <div>
+              <label className="block text-xs font-semibold text-gray-700 mb-1">নাম</label>
+              <input
+                type="text"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                className="w-full px-3 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-1 focus:ring-emerald-600 bg-white text-gray-800"
+              />
+            </div>
+
+            <button
+              type="submit"
+              disabled={loading}
+              className="w-full bg-emerald-700 hover:bg-emerald-800 text-white font-semibold py-2.5 rounded-xl transition text-sm shadow-sm"
+            >
+              {loading ? "আপডেট হচ্ছে..." : "আপডেট করুন"}
+            </button>
+          </form>
+        </div>
       </div>
     </div>
   );
