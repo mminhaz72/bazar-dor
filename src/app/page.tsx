@@ -62,7 +62,7 @@ export default function Home() {
 
   return (
     <div className="max-w-6xl mx-auto px-4 py-6 space-y-10">
-      {/* ফিগমার সাথে মিল রেখে ব্যানার সেকশন */}
+      {/* ফিগমার সাথে মিল রেখে ব্যানার সেকশন এবং সঠিক হিরো ইমেজ */}
       <section className="bg-white rounded-2xl p-6 md:p-10 shadow-sm border border-gray-100 flex flex-col md:flex-row items-center justify-between gap-8">
         <div className="space-y-3 max-w-xl">
           <span className="text-xs text-emerald-800 font-medium block">
@@ -83,8 +83,12 @@ export default function Home() {
             </a>
           </div>
         </div>
-        <div className="w-40 h-40 md:w-56 md:h-56 flex items-center justify-center bg-emerald-50 rounded-2xl">
-          <span className="text-6xl">🧺🍅🥕</span>
+        <div className="w-48 h-48 md:w-60 md:h-60 flex items-center justify-center bg-emerald-50/50 rounded-2xl p-4">
+          <img
+            src="/bazar-hero.png"
+            alt="Bazar Hero"
+            className="w-full h-full object-contain"
+          />
         </div>
       </section>
 
