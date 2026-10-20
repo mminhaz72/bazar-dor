@@ -1,19 +1,19 @@
 import { betterAuth } from "better-auth";
-import Database from "better-sqlite3";
+import { mongodbAdapter } from "better-auth/adapters/mongodb";
+import { MongoClient } from "mongodb";
+
+const client = new MongoClient(process.env.DATABASE_URL!);
+const db = client.db("bazar-dor");
 
 export const auth = betterAuth({
-  database: new Database("local.db"),
-  emailAndPassword: {
-    enabled: true
-  },
-  socialProviders: {
-    google: { 
-      clientId: process.env.GOOGLE_CLIENT_ID || "", 
-      clientSecret: process.env.GOOGLE_CLIENT_SECRET || "", 
-    }, 
-    github: { 
-      clientId: process.env.GITHUB_CLIENT_ID || "", 
-      clientSecret: process.env.GITHUB_CLIENT_SECRET || "", 
+    database: mongodbAdapter(db),
+    emailAndPassword: {  
+        enabled: true,  
     },
-  },
+    socialProviders: {
+        google: {
+            clientId: process.env.GOOGLE_CLIENT_ID!,
+            clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
+        },
+    },
 });
