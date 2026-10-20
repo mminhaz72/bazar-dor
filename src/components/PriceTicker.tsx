@@ -37,7 +37,7 @@ export default function PriceTicker() {
         style={{ 
           display: "flex", 
           width: "max-content", 
-          animation: "marquee 30s linear infinite" 
+          animation: "marquee 50s linear infinite" 
         }}
       >
         {tickerData.concat(tickerData).map((item, index) => {
