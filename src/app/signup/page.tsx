@@ -66,7 +66,7 @@ export default function SignupPage() {
               value={name}
               onChange={(e) => setName(e.target.value)}
               required
-              className="w-full p-2 border border-gray-300 rounded-md text-gray-900 bg-white font-medium placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-emerald-500"
+              className="w-full p-2 border border-gray-300 rounded-md !text-black !bg-white font-medium placeholder:!text-gray-400 focus:outline-none focus:ring-1 focus:ring-emerald-500"
               placeholder="আপনার নাম"
             />
           </div>
@@ -78,7 +78,7 @@ export default function SignupPage() {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
-              className="w-full p-2 border border-gray-300 rounded-md text-gray-900 bg-white font-medium placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-emerald-500"
+              className="w-full p-2 border border-gray-300 rounded-md !text-black !bg-white font-medium placeholder:!text-gray-400 focus:outline-none focus:ring-1 focus:ring-emerald-500"
               placeholder="example@gmail.com"
             />
           </div>
@@ -90,7 +90,7 @@ export default function SignupPage() {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
-              className="w-full p-2 border border-gray-300 rounded-md text-gray-900 bg-white font-medium placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-emerald-500"
+              className="w-full p-2 border border-gray-300 rounded-md !text-black !bg-white font-medium placeholder:!text-gray-400 focus:outline-none focus:ring-1 focus:ring-emerald-500"
               placeholder="••••••••"
             />
           </div>
@@ -102,7 +102,7 @@ export default function SignupPage() {
               value={confirmPassword}
               onChange={(e) => setConfirmPassword(e.target.value)}
               required
-              className="w-full p-2 border border-gray-300 rounded-md text-gray-900 bg-white font-medium placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-emerald-500"
+              className="w-full p-2 border border-gray-300 rounded-md !text-black !bg-white font-medium placeholder:!text-gray-400 focus:outline-none focus:ring-1 focus:ring-emerald-500"
               placeholder="••••••••"
             />
           </div>
