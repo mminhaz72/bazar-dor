@@ -1,6 +1,7 @@
 "use client";
+
 import Link from "next/link";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 import { authClient } from "@/lib/auth-client";
@@ -8,32 +9,19 @@ import { authClient } from "@/lib/auth-client";
 export default function Navbar() {
   const router = useRouter();
   const [dropdownOpen, setDropdownOpen] = useState(false);
-  const [sessionUser, setSessionUser] = useState<any>(null);
 
-  useEffect(() => {
-    const fetchSession = async () => {
-      const { data } = await authClient.getSession();
-      if (data?.user) {
-        setSessionUser(data.user);
-      } else {
-        const localName = localStorage.getItem("userName");
-        if (localName) {
-          setSessionUser({ name: localName, email: "user@gmail.com" });
-        }
-      }
-    };
-    fetchSession();
-  }, []);
+  // Better-Auth এর বিল্ট-ইন হুক ব্যবহার করা হলো যা সেশন অটোম্যাটিক ট্র্যাক করে
+  const { data: session, isPending } = authClient.useSession();
+  const sessionUser = session?.user;
 
   const handleLogout = async () => {
     await authClient.signOut({
       fetchOptions: {
         onSuccess: () => {
-          localStorage.removeItem("userName");
-          setSessionUser(null);
           toast.success("সফলভাবে লগআউট হয়েছে!");
           setDropdownOpen(false);
           router.push("/signin");
+          router.refresh();
         },
       },
     });
@@ -61,7 +49,9 @@ export default function Navbar() {
           </div>
         </Link>
 
-        {sessionUser ? (
+        {isPending ? (
+          <div className="text-xs text-gray-400">লোড হচ্ছে...</div>
+        ) : sessionUser ? (
           <div className="relative">
             <button
               onClick={() => setDropdownOpen(!dropdownOpen)}
